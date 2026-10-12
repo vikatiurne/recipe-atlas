@@ -40,7 +40,7 @@ app/recipe/[slug]/page.tsx
 - [ ] Сторінка виглядає так само, як у задачі 06
 - [ ] Кожен компонент має типізовані props (без `any`)
 - [ ] Кожен компонент — Server Component (без `"use client"`)
-- [ ] `pnpm exec tsc --noEmit` — без помилок
+- [ ] `pnpm typecheck` — без помилок
 - [ ] `pnpm build` — без помилок
 - [ ] Lighthouse Accessibility ≥ 90 на сторінці рецепту
 
@@ -331,7 +331,7 @@ export default async function RecipePage({ params }: PageProps) {
    - `<dl>`, `<dt>`, `<dd>`
    - `<ul>`
 6. Chrome DevTools → Lighthouse → Accessibility ≥ 90.
-7. `pnpm exec tsc --noEmit` — без помилок.
+7. `pnpm typecheck` — без помилок.
 8. `pnpm build` — без помилок.
 
 ---

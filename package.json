@@ -1,0 +1,15 @@
+{
+  "name": "recipe-atlas",
+  "private": true,
+  "packageManager": "pnpm@12.11.2",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev:web": "pnpm --filter web dev",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:cms": "pnpm --filter cms develop",
+    "build:web": "pnpm --filter web build",
+    "build:api": "pnpm --filter api build",
+    "build:cms": "pnpm --filter cms build",
+    "typecheck": "pnpm -r exec tsc --noEmit"
+  }
+}

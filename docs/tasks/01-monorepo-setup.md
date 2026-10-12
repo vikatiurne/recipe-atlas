@@ -10,7 +10,7 @@
 
 ## 🎯 Мета
 
-Після завершення задачі в корені репозиторію працює pnpm workspace з трьома apps (`web`, `api`, `cms`) і одним спільним пакетом (`shared`). Команда `pnpm install` встановлює все, команда `pnpm dev:web` запускає Next.js на `localhost:3001`.
+Після завершення задачі в корені репозиторію працює pnpm workspace з трьома apps (`web`, `api`, `cms`) і одним спільним пакетом (`shared`). Команда `pnpm install` встановлює все, команда `pnpm dev:web` запускає Next.js на `localhost:3001`. У `packages/shared` є базові єнуми проєкту.
 
 ---
 
@@ -20,23 +20,28 @@
 Корінь репо → pnpm-workspace.yaml → apps/web (Next.js)
                                   → apps/api (Nest.js)
                                   → apps/cms (Strapi)
-                                  → packages/shared (типи)
+                                  → packages/shared/
+                                       ├── enums/     (Locale, Difficulty, ...)
+                                       └── index.ts
 ```
 
-**Перевірка:** `pnpm install` проходить без помилок, `pnpm dev:web` піднімає Next.js.
+**Перевірка:** `pnpm install` проходить без помилок, `pnpm dev:web` піднімає Next.js на `localhost:3001`.
 
 ---
 
 ## ✅ Acceptance Criteria
 
-- [ ] У корені є `package.json`, `pnpm-workspace.yaml`, `.gitignore`, `.nvmrc`, `.editorconfig`, `tsconfig.base.json`, `README.md`
+- [ ] У корені є `package.json`, `pnpm-workspace.yaml`, `.gitignore`, `.nvmrc`, `.editorconfig`, `tsconfig.base.json`, `README.md`, `LICENSE`
+- [ ] `.nvmrc` містить `24`
 - [ ] `pnpm install` проходить без помилок
 - [ ] `pnpm dev:web` запускає Next.js на `http://localhost:3001` — видно стартову сторінку
 - [ ] `pnpm build:web` проходить без помилок
-- [ ] `apps/api` містить Nest.js-скелет (можна запустити окремо, але це не входить у критерії)
-- [ ] `apps/cms` містить Strapi-скелет (можна запустити окремо, але це не входить у критерії)
+- [ ] `apps/api` містить Nest.js-скелет
+- [ ] `apps/cms` містить Strapi-скелет
 - [ ] `packages/shared` містить `package.json`, `tsconfig.json`, `src/index.ts`
+- [ ] `packages/shared/src/enums/` містить 6 файлів єнумів + `index.ts`
 - [ ] Усі apps імпортують `@recipe-atlas/shared` без помилок
+- [ ] У `apps/web/app/page.tsx` тимчасово імпортовано `LOCALE` і `DIFFICULTY` — `pnpm build:web` проходить
 
 ---
 
@@ -49,6 +54,8 @@
 - ❌ Будь-який код фіч (рецепти, каталог, пошук)
 - ❌ Налаштування CI/CD (це задача 28)
 - ❌ ESLint / Prettier конфіги (окрема задача, якщо треба)
+- ❌ Тести (Jest, Vitest) — пізніше
+- ❌ Єнуми, яких немає в списку нижче (не додавати «на майбутнє»)
 
 ---
 
@@ -56,21 +63,29 @@
 
 ### Створити в корені
 
-- `package.json` — root, з скриптами `dev:web`, `build:web`, `dev:api`, `dev:cms`
+- `package.json` — root, зі скриптами `dev:web`, `build:web`, `dev:api`, `dev:cms`
 - `pnpm-workspace.yaml` — `apps/*`, `packages/*`
 - `.gitignore` — node_modules, .next, dist, .env*, .strapi, build
-- `.nvmrc` — `22`
+- `.nvmrc` — `24`
 - `.editorconfig` — базові правила
 - `tsconfig.base.json` — спільні compilerOptions
 - `README.md` — короткий опис + команди
+- `LICENSE` — MIT
 
 ### Створити як пакет
 
 - `packages/shared/package.json`
 - `packages/shared/tsconfig.json`
-- `packages/shared/src/index.ts` — експорт порожнього типу `export type Locale = 'uk' | 'en';`
+- `packages/shared/src/index.ts`
+- `packages/shared/src/enums/index.ts`
+- `packages/shared/src/enums/locale.ts`
+- `packages/shared/src/enums/difficulty.ts`
+- `packages/shared/src/enums/calorie-level.ts`
+- `packages/shared/src/enums/nutrition-source.ts`
+- `packages/shared/src/enums/nutrition-confidence.ts`
+- `packages/shared/src/enums/job-status.ts`
 
-### Згенерувати через CLI (не писати вручну)
+### Згенерувати через CLI
 
 - `apps/web` — `pnpm create next-app`
 - `apps/api` — `pnpm dlx @nestjs/cli new`
@@ -79,6 +94,8 @@
 ### Не чіпати
 
 - Не редагувати `.next/`, `node_modules/`, згенеровані CLI файли — тільки те, що явно вказано
+- Не додавати єнуми поза списком вище
+- Не створювати `packages/shared/src/types/` (це пізніше)
 
 ---
 
@@ -86,13 +103,13 @@
 
 ### Версії
 
-- Node.js: `22.x` (LTS)
+- Node.js: `24.x` (LTS)
 - pnpm: `9.x`
-- Next.js: `15.x` (App Router, TypeScript, Tailwind, ESLint, src/ — НІ)
+- Next.js: `15.x` (App Router, TypeScript, Tailwind, ESLint, без src/)
 - Nest.js: остання стабільна
 - Strapi: `5.x`
 
-### Root `package.json` — приблизна структура
+### Root `package.json`
 
 ```json
 {
@@ -136,7 +153,7 @@ packages:
 }
 ```
 
-### `.gitignore` (скорочено)
+### `.gitignore`
 
 ```
 node_modules/
@@ -152,7 +169,7 @@ build/
 .strapi/
 ```
 
-### CLI команди (non-interactive)
+### CLI команди
 
 ```bash
 # web
@@ -171,12 +188,6 @@ pnpm dlx create-strapi-app@latest apps/cms \
 
 **Якщо CLI не підтримує non-interactive — роби інтерактивно, але з тими самими відповідями.**
 
-### `packages/shared/src/index.ts`
-
-```ts
-export type Locale = 'uk' | 'en';
-```
-
 ### `packages/shared/package.json`
 
 ```json
@@ -190,24 +201,202 @@ export type Locale = 'uk' | 'en';
 }
 ```
 
+### `packages/shared/tsconfig.json`
+
+```json
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
+}
+```
+
+### `packages/shared/src/index.ts`
+
+```ts
+export * from './enums';
+```
+
+### `packages/shared/src/enums/index.ts`
+
+```ts
+export * from './locale';
+export * from './difficulty';
+export * from './calorie-level';
+export * from './nutrition-source';
+export * from './nutrition-confidence';
+export * from './job-status';
+```
+
+### `packages/shared/src/enums/locale.ts`
+
+```ts
+export const LOCALE = {
+  UK: 'uk',
+  EN: 'en',
+} as const;
+
+export type Locale = (typeof LOCALE)[keyof typeof LOCALE];
+
+export const LOCALES = Object.values(LOCALE) as Locale[];
+
+export const DEFAULT_LOCALE: Locale = LOCALE.UK;
+```
+
+### `packages/shared/src/enums/difficulty.ts`
+
+```ts
+export const DIFFICULTY = {
+  EASY: 'easy',
+  MEDIUM: 'medium',
+  HARD: 'hard',
+} as const;
+
+export type Difficulty = (typeof DIFFICULTY)[keyof typeof DIFFICULTY];
+
+export const DIFFICULTY_VALUES = Object.values(DIFFICULTY) as Difficulty[];
+
+export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+  easy: 'Легко',
+  medium: 'Середньо',
+  hard: 'Складно',
+};
+```
+
+**Нотатка:** значення `easy` / `medium` / `hard` мають співпадати зі Strapi-схемою, яку створимо в задачі 03. **Не змінюй їх потім без міграції.**
+
+### `packages/shared/src/enums/calorie-level.ts`
+
+```ts
+export const CALORIE_LEVEL = {
+  LOW: 'low',
+  MEDIUM: 'medium',
+  HIGH: 'high',
+} as const;
+
+export type CalorieLevel = (typeof CALORIE_LEVEL)[keyof typeof CALORIE_LEVEL];
+
+export const CALORIE_THRESHOLDS = {
+  LOW_MAX: 300,
+  MEDIUM_MAX: 600,
+} as const;
+
+export function getCalorieLevel(calories: number): CalorieLevel {
+  if (calories < CALORIE_THRESHOLDS.LOW_MAX) return CALORIE_LEVEL.LOW;
+  if (calories < CALORIE_THRESHOLDS.MEDIUM_MAX) return CALORIE_LEVEL.MEDIUM;
+  return CALORIE_LEVEL.HIGH;
+}
+```
+
+### `packages/shared/src/enums/nutrition-source.ts`
+
+```ts
+export const NUTRITION_SOURCE = {
+  USDA: 'usda',
+  KAGGLE: 'kaggle',
+  ESTIMATED: 'estimated',
+  MANUAL: 'manual',
+} as const;
+
+export type NutritionSource =
+  (typeof NUTRITION_SOURCE)[keyof typeof NUTRITION_SOURCE];
+```
+
+### `packages/shared/src/enums/nutrition-confidence.ts`
+
+```ts
+export const NUTRITION_CONFIDENCE = {
+  HIGH: 'high',
+  MEDIUM: 'medium',
+  LOW: 'low',
+} as const;
+
+export type NutritionConfidence =
+  (typeof NUTRITION_CONFIDENCE)[keyof typeof NUTRITION_CONFIDENCE];
+```
+
+### `packages/shared/src/enums/job-status.ts`
+
+```ts
+export const JOB_STATUS = {
+  PENDING: 'pending',
+  ACTIVE: 'active',
+  COMPLETED: 'completed',
+  FAILED: 'failed',
+} as const;
+
+export type JobStatus = (typeof JOB_STATUS)[keyof typeof JOB_STATUS];
+
+export const JOB_STATUS_VALUES = Object.values(JOB_STATUS) as JobStatus[];
+```
+
+### Тимчасова перевірка в `apps/web/app/page.tsx`
+
+Замінити вміст на:
+
+```tsx
+import { LOCALE, DIFFICULTY, getCalorieLevel } from '@recipe-atlas/shared';
+
+export default function HomePage() {
+  return (
+    <div>
+      <h1>Recipe Atlas</h1>
+      <p>Locale: {LOCALE.UK}</p>
+      <p>Difficulty: {DIFFICULTY.EASY}</p>
+      <p>Calorie level for 250 kcal: {getCalorieLevel(250)}</p>
+    </div>
+  );
+}
+```
+
+**Це тимчасово** — у задачі 04 замінимо на нормальну сторінку.
+
+### Як Next.js знайде `@recipe-atlas/shared`
+
+Next.js 16 підтримує pnpm workspaces з коробки, якщо `packages/shared/package.json` має `main` і `types`. Якщо виникнуть проблеми з резолвом — додати в `apps/web/next.config.ts`:
+
+```ts
+const nextConfig = {
+  transpilePackages: ['@recipe-atlas/shared'],
+};
+
+export default nextConfig;
+```
+
+**Це стандартна практика для монорепо з Next.js.**
+
 ---
 
 ## 🧪 Як перевірити
 
 1. Клонувати репо з нуля (або `rm -rf node_modules apps/*/node_modules packages/*/node_modules`).
 2. `pnpm install` — має пройти без помилок, створити один `pnpm-lock.yaml` у корені.
-3. `pnpm dev:web` — відкрити `http://localhost:3001` — побачити стартову сторінку Next.js.
-4. Зупинити (`Ctrl+C`).
-5. `pnpm build:web` — має пройти без помилок.
-6. Перевірити, що `apps/api` і `apps/cms` існують і мають `package.json` з іменами `api` і `cms`.
-7. Перевірити, що `packages/shared` існує і має `src/index.ts`.
-8. У `apps/web/app/page.tsx` тимчасово додати:
-   ```ts
-   import type { Locale } from '@recipe-atlas/shared';
-   const l: Locale = 'uk';
-   console.log(l);
-   ```
-   Якщо `pnpm build:web` проходить — тип резолвиться.
+3. `pnpm dev:web` — відкрити `http://localhost:3001`.
+4. Перевірити, що видно:
+   - `Locale: uk`
+   - `Difficulty: easy`
+   - `Calorie level for 250 kcal: low`
+5. Зупинити (`Ctrl+C`).
+6. `pnpm build:web` — без помилок.
+7. `pnpm typecheck` — без помилок.
+8. Перевірити, що `apps/api` і `apps/cms` існують і мають `package.json` з іменами `api` і `cms`.
+9. Перевірити, що `packages/shared/src/enums/` містить 7 файлів (6 єнумів + `index.ts`).
+
+---
+
+## ⚠️ Що може піти не так
+
+| Проблема | Рішення |
+|---|---|
+| `@recipe-atlas/shared` не резолвиться | Додати `transpilePackages` у `next.config.ts` |
+| `pnpm install` падає на Strapi | Використати `--ignore-scripts` для Strapi, потім окремо `pnpm --filter cms install` |
+| TypeScript не бачить типи з shared | Перевірити `main` і `types` у `packages/shared/package.json` |
+| Next.js стартує на 3000, а не 3001 | Перевірити, чи є `-p 3001` у `apps/web/package.json` |
+| Nest.js CLI ставить npm-лок | Використати `--package-manager pnpm` |
+| Strapi CLI не підтримує non-interactive | Запустити інтерактивно, але з тими самими відповідями |
 
 ---
 
@@ -215,6 +404,7 @@ export type Locale = 'uk' | 'en';
 
 - `00_CONTEXT.md` → розділ 6 (Технічний стек)
 - `00_CONTEXT.md` → розділ 8 (Структура репозиторію)
+- `AGENT_RULES.md` → секція 7.2 (Єнуми та константи)
 - `01_ROADMAP.md` → E1 — Foundation
 
 ---
@@ -226,11 +416,12 @@ chore(repo): initialize pnpm workspaces with web, api, cms apps
 
 - add root package.json with workspace scripts
 - add pnpm-workspace.yaml with apps/* and packages/*
-- add tsconfig.base.json, .nvmrc, .editorconfig, .gitignore
-- scaffold apps/web with create-next-app (Next.js 15, App Router, TS)
+- add tsconfig.base.json, .nvmrc (24), .editorconfig, .gitignore
+- add README.md and MIT LICENSE
+- scaffold apps/web with create-next-app on port 3001
 - scaffold apps/api with @nestjs/cli
 - scaffold apps/cms with create-strapi-app
-- add packages/shared with Locale type
+- add packages/shared with enums: Locale, Difficulty, CalorieLevel, NutritionSource, NutritionConfidence, JobStatus
 - wire @recipe-atlas/shared into web app
 ```
 
@@ -245,12 +436,13 @@ git checkout -b feat/01-monorepo-setup
 
 git add .
 git commit -m "chore(repo): initialize pnpm workspaces with web, api, cms apps"
-git push origin feat/01-monorepo-setup
+git push -u origin feat/01-monorepo-setup
 ```
 
 **PR:**
+- Base: `dev`
 - Назва: `chore(repo): initialize pnpm workspaces with web, api, cms apps`
-- Опис: скопіювати Acceptance Criteria
+- Опис: Acceptance Criteria
 - Після merge — видалити гілку
 
 ---
@@ -261,5 +453,6 @@ git push origin feat/01-monorepo-setup
 
 - Чи спрацювали CLI команди non-interactive?
 - Чи виникли конфлікти версій Node/pnpm?
-- Чи знадобилось щось додати в `.gitignore`?
+- Чи знадобився `transpilePackages` у `next.config.ts`?
+- Чи все ок з резолвом `@recipe-atlas/shared`?
 - Що винести в окрему задачу?

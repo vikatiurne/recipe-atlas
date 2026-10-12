@@ -44,7 +44,7 @@ Strapi API → Postgres
 - [ ] Тимчасова сторінка `app/test-recipes/page.tsx` рендерить назви всіх рецептів
 - [ ] `pnpm dev:web` → `http://localhost:3001/test-recipes` показує 5 назв
 - [ ] `pnpm build:web` проходить без помилок
-- [ ] `pnpm exec tsc --noEmit` проходить без помилок
+- [ ] `pnpm typecheck` проходить без помилок
 
 ---
 
@@ -295,7 +295,7 @@ curl -s "http://localhost:1337/api/recipes?populate=*&pagination[limit]=1" | jq 
    - Видно «Test Recipes (5)»
    - Список з 5 назв: Pasta Carbonara, Miso Soup, Borscht, Tacos al Pastor, Ratatouille
    - Кожен рядок має `title — slug`
-6. `pnpm exec tsc --noEmit` — без помилок.
+6. `pnpm typecheck` — без помилок.
 7. `pnpm build` — без помилок.
 8. **Перевірка типів:** спробувати звернутись до `recipe.calories` у `page.tsx` — має бути помилка TypeScript (бо поля немає). Видалити.
 
