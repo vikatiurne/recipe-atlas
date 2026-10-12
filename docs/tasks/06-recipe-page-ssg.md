@@ -45,7 +45,7 @@ HTML згенеровано на етапі build (SSG)
 - [ ] `pnpm build` генерує HTML-файли для всіх 5 рецептів (перевірити `.next/server/app/recipe/`)
 - [ ] `view-source` показує контент (не порожній div)
 - [ ] Тимчасова сторінка `/test-recipes` **видалена**
-- [ ] `pnpm exec tsc --noEmit` проходить без помилок
+- [ ] `pnpm typecheck` проходить без помилок
 
 ---
 
@@ -171,7 +171,7 @@ export default async function RecipePage({ params }: PageProps) {
 
 **1. `params` — це Promise (Next.js 15)**
 
-У Next.js 15 `params` асинхронний. Обов'язково `await params`. Без цього — TypeScript-помилка.
+У Next.js 16 `params` асинхронний. Обов'язково `await params`. Без цього — TypeScript-помилка.
 
 **2. `notFound()` для неіснуючих рецептів**
 
