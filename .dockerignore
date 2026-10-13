@@ -1,0 +1,17 @@
+node_modules
+**/node_modules
+.git
+.gitignore
+.next
+**/dist
+build
+**/.turbo
+**/.strapi
+**/.tmp
+**/coverage
+*.log
+.DS_Store
+.env
+.env.*
+!/.env.example
+apps/cms/public/uploads

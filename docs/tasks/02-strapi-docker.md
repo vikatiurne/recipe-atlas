@@ -190,6 +190,12 @@ volumes:
 - `strapi_uploads` — щоб завантажені зображення не зникали при пересборці.
 - Volume `- /app/node_modules` — щоб не перезаписувати контейнерні node_modules хостовими.
 
+### ⚠️ Нотатка про pnpm workspace
+
+Dockerfile використовує `context: .` (корінь репо), а не `./apps/cms`.
+Причина: pnpm workspaces вимагають доступу до `pnpm-lock.yaml` і `pnpm-workspace.yaml` у корені.
+Це відхилення від літерального тексту задачі — і це правильно.
+
 ### `docker/redis/redis.conf`
 
 ```

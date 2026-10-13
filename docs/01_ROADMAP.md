@@ -56,7 +56,7 @@ E7	Infra + якість	4	7–8
 Deliverable: pnpm dev піднімає Next.js, Strapi, Postgres і Redis; у Strapi є модель Recipe з 5 тестовими рецептами.
 
 ID	Задача	Розмір	Залежності	Статус
-01	Monorepo + pnpm workspaces + базові apps	M	—	⬜
+01  Monorepo + pnpm workspaces + базові apps  M  —  ✅ 
 02	Docker Compose: Postgres + Redis + Strapi	M	01	⬜
 03	Strapi: модель Recipe + 5 тестових рецептів	S	02	⬜
 04	Next.js: layout, Tailwind, shadcn, навігація	S	01	⬜
