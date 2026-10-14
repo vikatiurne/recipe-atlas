@@ -58,7 +58,7 @@ Deliverable: pnpm dev піднімає Next.js, Strapi, Postgres і Redis; у St
 ID	Задача	Розмір	Залежності	Статус
 01  Monorepo + pnpm workspaces + базові apps  M  —  ✅ 
 02  Docker Compose: Postgres + Redis + Strapi  M  01  ✅ 
-03	Strapi: модель Recipe + 5 тестових рецептів	S	02	⬜
+03	Strapi: модель Recipe + 5 тестових рецептів	S	02	✅ 
 04	Next.js: layout, Tailwind, shadcn, навігація	S	01	⬜
 Done, коли:
 
@@ -277,3 +277,9 @@ docs/templates/TASK_TEMPLATE.md — шаблон задачі
 - Прибрано named volume `strapi_uploads` — bind-mount зберігає uploads на хості.
 
 **Висновок:** задача 02 була написана наївно, без урахування pnpm workspaces і особливостей Strapi 5. Реальна реалізація вимагала 5 відхилень — усі виправдані.
+
+
+- `steps` — Strapi richtext (у Strapi 5 немає окремого markdown-типу).
+- Права `find`/`findOne` увімкнено вручну — у Strapi 5 колекції приватні за замовчуванням.
+- 5 рецептів створено вручну через Admin UI.
+- Seed-скрипт — out of scope, буде в задачі 20 (Nest.js ImportModule).

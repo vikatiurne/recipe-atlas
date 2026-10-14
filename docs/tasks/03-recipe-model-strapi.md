@@ -209,7 +209,6 @@ feat(cms): add Recipe collection type with 5 seed recipes
 
 - add recipe schema with title, slug, description, image, ingredients, steps, timing, difficulty
 - add shared.ingredient component (name, amount, unit)
-- enable public find/findOne for Recipe
 - seed 5 recipes: pasta-carbonara, miso-soup, borscht, tacos-al-pastor, ratatouille
 ```
 
