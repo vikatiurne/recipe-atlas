@@ -209,7 +209,6 @@ feat(cms): add Recipe collection type with 5 seed recipes
 
 - add recipe schema with title, slug, description, image, ingredients, steps, timing, difficulty
 - add shared.ingredient component (name, amount, unit)
-- enable public find/findOne for Recipe
 - seed 5 recipes: pasta-carbonara, miso-soup, borscht, tacos-al-pastor, ratatouille
 ```
 
@@ -248,3 +247,7 @@ git push origin feat/03-recipe-model-strapi
 - Чи зручно було через Content-Type Builder vs редагування `schema.json`?
 - Чи треба винести seed-скрипт в окрему задачу?
 - Що винести в задачу 04 (моделі Country/Cuisine/Diet)?
+
+### Postgres-драйвер уже встановлено
+
+`pg` уже додано в `apps/cms/package.json` під час задачі 02. Нічого встановлювати не треба.
