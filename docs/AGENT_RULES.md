@@ -160,7 +160,7 @@ function RecipeMeta({ prepTime, cookTime }: Props) {
 }
 
 // ✅ Добре — логіка у lib/formatters.ts
-import { formatDuration } from '@/lib/formatters';
+import { formatDuration } from "@/lib/formatters";
 
 function RecipeMeta({ prepTime, cookTime }: Props) {
   return <span>{formatDuration(prepTime + cookTime)}</span>;
@@ -179,14 +179,20 @@ function RecipeMeta({ prepTime, cookTime }: Props) {
 ```tsx
 // ❌ Погано — компонент знає про бізнес-правила
 function CalorieBadge({ calories }: { calories: number }) {
-  const color = calories > 500 ? 'red' : calories > 300 ? 'yellow' : 'green';
+  const color = calories > 500 ? "red" : calories > 300 ? "yellow" : "green";
   return <span className={color}>{calories} kcal</span>;
 }
 
 // ✅ Добре — компонент отримує готовий варіант
-type CalorieLevel = 'low' | 'medium' | 'high';
+type CalorieLevel = "low" | "medium" | "high";
 
-function CalorieBadge({ calories, level }: { calories: number; level: CalorieLevel }) {
+function CalorieBadge({
+  calories,
+  level,
+}: {
+  calories: number;
+  level: CalorieLevel;
+}) {
   return <span data-level={level}>{calories} kcal</span>;
 }
 ```
@@ -196,7 +202,9 @@ function CalorieBadge({ calories, level }: { calories: number; level: CalorieLev
 ```tsx
 // ❌ Погано — важко читати
 {
-  recipe.image && recipe.image.url && !recipe.image.url.includes('placeholder') && <img src={recipe.image.url} />;
+  recipe.image &&
+    recipe.image.url &&
+    !recipe.image.url.includes("placeholder") && <img src={recipe.image.url} />;
 }
 
 // ✅ Добре — обчислити заздалегідь
@@ -214,10 +222,10 @@ const imageUrl = getImageUrl(recipe);
 
 ```tsx
 // ❌ Погано
-<span>{new Date(recipe.createdAt).toLocaleDateString('uk-UA')}</span>;
+<span>{new Date(recipe.createdAt).toLocaleDateString("uk-UA")}</span>;
 
 // ✅ Добре
-import { formatDate } from '@/lib/formatters';
+import { formatDate } from "@/lib/formatters";
 <span>{formatDate(recipe.createdAt)}</span>;
 ```
 
@@ -228,10 +236,10 @@ import { formatDate } from '@/lib/formatters';
 
 ```tsx
 // 1. Імпорти типів
-import type { Recipe } from '@/lib/strapi';
+import type { Recipe } from "@/lib/strapi";
 
 // 2. Імпорти компонентів
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 // 3. Типи props
 interface Props {
@@ -276,6 +284,7 @@ export function RecipeTitle({ title, onAction }: Props) {
 ## 7.2. Єнуми та константи
 
 ### Головне правило
+
 **Не використовувати `enum` з TypeScript. Використовувати `as const` об'єкти або string literal unions.**
 
 ### Чому не `enum`
@@ -293,9 +302,9 @@ export function RecipeTitle({ title, onAction }: Props) {
 ```ts
 // ✅ Добре
 export const DIFFICULTY = {
-  EASY: 'easy',
-  MEDIUM: 'medium',
-  HARD: 'hard',
+  EASY: "easy",
+  MEDIUM: "medium",
+  HARD: "hard",
 } as const;
 
 export type Difficulty = (typeof DIFFICULTY)[keyof typeof DIFFICULTY];
@@ -306,14 +315,14 @@ export type Difficulty = (typeof DIFFICULTY)[keyof typeof DIFFICULTY];
 
 ```ts
 // ✅ Добре
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = "easy" | "medium" | "hard";
 ```
 
 **Варіант 3: Масив + тип (коли треба ітерувати)**
 
 ```ts
 // ✅ Добре
-export const DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
+export const DIFFICULTIES = ["easy", "medium", "hard"] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
 ```
 
@@ -336,18 +345,18 @@ packages/shared/src/
 **`packages/shared/src/index.ts`:**
 
 ```ts
-export * from './enums/difficulty';
-export * from './enums/locale';
-export * from './enums/nutrition-source';
-export * from './enums/nutrition-confidence';
-export * from './enums/calorie-level';
-export * from './enums/job-status';
+export * from "./enums/difficulty";
+export * from "./enums/locale";
+export * from "./enums/nutrition-source";
+export * from "./enums/nutrition-confidence";
+export * from "./enums/calorie-level";
+export * from "./enums/job-status";
 ```
 
 **Імпорт у web / api:**
 
 ```ts
-import { DIFFICULTY, type Difficulty } from '@recipe-atlas/shared';
+import { DIFFICULTY, type Difficulty } from "@recipe-atlas/shared";
 ```
 
 ### Приклад: `Difficulty`
@@ -356,9 +365,9 @@ import { DIFFICULTY, type Difficulty } from '@recipe-atlas/shared';
 // packages/shared/src/enums/difficulty.ts
 
 export const DIFFICULTY = {
-  EASY: 'easy',
-  MEDIUM: 'medium',
-  HARD: 'hard',
+  EASY: "easy",
+  MEDIUM: "medium",
+  HARD: "hard",
 } as const;
 
 export type Difficulty = (typeof DIFFICULTY)[keyof typeof DIFFICULTY];
@@ -366,16 +375,20 @@ export type Difficulty = (typeof DIFFICULTY)[keyof typeof DIFFICULTY];
 export const DIFFICULTY_VALUES = Object.values(DIFFICULTY) as Difficulty[];
 
 export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
-  easy: 'Легко',
-  medium: 'Середньо',
-  hard: 'Складно',
+  easy: "Легко",
+  medium: "Середньо",
+  hard: "Складно",
 };
 ```
 
 **Використання:**
 
 ```tsx
-import { DIFFICULTY, DIFFICULTY_LABELS, type Difficulty } from '@recipe-atlas/shared';
+import {
+  DIFFICULTY,
+  DIFFICULTY_LABELS,
+  type Difficulty,
+} from "@recipe-atlas/shared";
 
 function DifficultyBadge({ value }: { value: Difficulty }) {
   return <span>{DIFFICULTY_LABELS[value]}</span>;
@@ -428,8 +441,8 @@ if (value === DIFFICULTY.EASY) {
 // packages/shared/src/enums/locale.ts
 
 export const LOCALE = {
-  UK: 'uk',
-  EN: 'en',
+  UK: "uk",
+  EN: "en",
 } as const;
 
 export type Locale = (typeof LOCALE)[keyof typeof LOCALE];
@@ -445,9 +458,9 @@ export const DEFAULT_LOCALE: Locale = LOCALE.UK;
 // packages/shared/src/enums/calorie-level.ts
 
 export const CALORIE_LEVEL = {
-  LOW: 'low',
-  MEDIUM: 'medium',
-  HIGH: 'high',
+  LOW: "low",
+  MEDIUM: "medium",
+  HIGH: "high",
 } as const;
 
 export type CalorieLevel = (typeof CALORIE_LEVEL)[keyof typeof CALORIE_LEVEL];
@@ -468,14 +481,14 @@ export function getCalorieLevel(calories: number): CalorieLevel {
 **Використання у компоненті:**
 
 ```tsx
-import { CALORIE_LEVEL, type CalorieLevel } from '@recipe-atlas/shared';
+import { CALORIE_LEVEL, type CalorieLevel } from "@recipe-atlas/shared";
 
 function CalorieBadge({
   calories,
   level,
 }: {
   calories: number;
-  level: CalorieLevel;   // ← компонент отримує готовий рівень, не рахує сам
+  level: CalorieLevel; // ← компонент отримує готовий рівень, не рахує сам
 }) {
   return <span data-level={level}>{calories} kcal</span>;
 }
@@ -539,11 +552,15 @@ type Status = 'active' | 'inactive' | 'pending' | 'archived' | ...;  // 10+ зн
 
 ```tsx
 // ❌ Погано
-{recipe.difficulty === 'easy' && <EasyBadge />}
+{
+  recipe.difficulty === "easy" && <EasyBadge />;
+}
 
 // ✅ Добре
-import { DIFFICULTY } from '@recipe-atlas/shared';
-{recipe.difficulty === DIFFICULTY.EASY && <EasyBadge />}
+import { DIFFICULTY } from "@recipe-atlas/shared";
+{
+  recipe.difficulty === DIFFICULTY.EASY && <EasyBadge />;
+}
 ```
 
 **Виняток:** рядки для відображення (текст кнопок, назви) — звичайні рядки або з `messages/`.
@@ -604,6 +621,43 @@ import { DIFFICULTY } from '@recipe-atlas/shared';
 - ✅ Commit message готовий.
 - ✅ Out of scope не зачеплено.
 
+### 10.1. Самоперевірка перед звітом
+
+**Перед тим як сказати «готово», обов'язково запусти:**
+
+```bash
+pnpm typecheck
+pnpm build
+```
+
+**Якщо задача змінювала `apps/cms` — додатково:**
+
+```bash
+docker compose logs strapi --tail=50
+```
+
+Перевір, що немає помилок типу `error TS`, `Found X errors`, `Cannot find module`.
+
+**Якщо задача змінювала `apps/api`:**
+
+```bash
+pnpm --filter api build
+```
+
+**Правило:**
+
+- Якщо є помилки TypeScript — виправ.
+- Якщо build падає — виправ.
+- Якщо Strapi не стартує — виправ.
+- **Тільки після цього** пиши звіт.
+- Якщо виправити не можеш — не кажи «готово». Напиши: «Задача не завершена, проблема: [опис]».
+
+**У звіті вкажи:**
+
+- Результат `pnpm typecheck` (✓ / ✗).
+- Результат `pnpm build` (✓ / ✗).
+- Якщо задача зі Strapi — результат перевірки логів.
+
 ---
 
 ## 11. Пріоритети
@@ -636,6 +690,7 @@ import { DIFFICULTY } from '@recipe-atlas/shared';
 ### Винятки
 
 Ліміт «≤ 7 файлів» не застосовується до **інфраструктурних задач**:
+
 - Задача 01 (monorepo setup)
 - Задача 02 (Docker Compose)
 - Задача 19 (Nest.js skeleton)
