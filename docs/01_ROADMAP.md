@@ -59,7 +59,7 @@ ID	Задача	Розмір	Залежності	Статус
 01  Monorepo + pnpm workspaces + базові apps  M  —  ✅ 
 02  Docker Compose: Postgres + Redis + Strapi  M  01  ✅ 
 03	Strapi: модель Recipe + 5 тестових рецептів	S	02	✅ 
-04	Next.js: layout, Tailwind, shadcn, навігація	S	01	⬜
+04	Next.js: layout, Tailwind, shadcn, навігація	S	01	✅ 
 Done, коли:
 
 pnpm install працює без помилок.
@@ -69,6 +69,13 @@ docker compose up піднімає Postgres, Redis, Strapi.
 pnpm dev запускає Next.js на localhost:3001 і Strapi на localhost:1337.
 
 У Strapi Admin (localhost:1337/admin) є 5 рецептів.
+
+### E1 — Foundation ✅ завершено
+
+- Монорепо з pnpm workspaces
+- Docker Compose: Postgres + Redis + Strapi
+- Strapi з моделлю Recipe + 5 рецептів
+- Next.js з базовим layout
 
 📦 E2 — Перший рецепт
 Мета: рендеринг одного рецепту через SSG з усіма компонентами.
