@@ -9,3 +9,6 @@ build/
 .DS_Store
 .turbo/
 .strapi/
+
+# Local learning notes (not part of the repo)
+docs/learn/

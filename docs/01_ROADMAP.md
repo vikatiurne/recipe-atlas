@@ -57,7 +57,7 @@ Deliverable: pnpm dev піднімає Next.js, Strapi, Postgres і Redis; у St
 
 ID	Задача	Розмір	Залежності	Статус
 01  Monorepo + pnpm workspaces + базові apps  M  —  ✅ 
-02	Docker Compose: Postgres + Redis + Strapi	M	01	⬜
+02  Docker Compose: Postgres + Redis + Strapi  M  01  ✅ 
 03	Strapi: модель Recipe + 5 тестових рецептів	S	02	⬜
 04	Next.js: layout, Tailwind, shadcn, навігація	S	01	⬜
 Done, коли:
@@ -264,3 +264,16 @@ docs/tasks/[ID]-[slug].md — деталі кожної задачі
 docs/epics/[E]-[slug].md — деталі епіків
 
 docs/templates/TASK_TEMPLATE.md — шаблон задачі
+
+## 📝 Нотатки
+
+Заповнено після завершення.
+
+**Відхилення від тексту задачі (усі — правильні):**
+- `context: .` замість `./apps/cms` — pnpm workspace вимагає корінь.
+- `.dockerignore` — без нього `COPY . .` тягне хостовий `node_modules`.
+- `pg` — обов'язковий драйвер для Postgres у Strapi.
+- `ENCRYPTION_KEY` — `config/admin.ts` його читає.
+- Прибрано named volume `strapi_uploads` — bind-mount зберігає uploads на хості.
+
+**Висновок:** задача 02 була написана наївно, без урахування pnpm workspaces і особливостей Strapi 5. Реальна реалізація вимагала 5 відхилень — усі виправдані.
