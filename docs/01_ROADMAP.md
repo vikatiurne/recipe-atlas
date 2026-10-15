@@ -84,7 +84,7 @@ pnpm dev запускає Next.js на localhost:3001 і Strapi на localhost:1
 Deliverable: /uk/recipe/pasta-carbonara рендериться статично, має правильні метадані.
 
 ID Задача Розмір Залежності Статус
-05 Strapi-клієнт + типи Recipe у Next.js S 03 ⬜
+05 Strapi-клієнт + типи Recipe у Next.js S 03 ✅
 06 Сторінка /recipe/[slug] через SSG M 05, 04 ⬜
 07 Компоненти: RecipeCard, IngredientList, Steps M 06 ⬜
 08 generateStaticParams + generateMetadata S 06 ⬜
